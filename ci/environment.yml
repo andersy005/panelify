@@ -5,3 +5,4 @@ dependencies:
   - panel
   - pandas
   - pytest
+  - pytest-cov
