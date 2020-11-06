@@ -2,7 +2,8 @@ name: panelify-dev
 channels:
   - conda-forge
 dependencies:
-  - panel
   - pandas
+  - panel
   - pytest
   - pytest-cov
+  - pytest-sugar
