@@ -1,0 +1,6 @@
+name: panelify-dev
+channels:
+  - conda-forge
+dependencies:
+  - panel
+  - pandas
