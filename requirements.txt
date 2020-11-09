@@ -1,2 +1,4 @@
-panel
+fsspec
+matplotlib
 pandas
+panel
