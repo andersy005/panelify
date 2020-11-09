@@ -16,7 +16,7 @@
 
 ## Overview
 
-Panelify is a Python library that makes it easy to create dashboards from **static images/plots/charts** via the [Panel](<(https://panel.holoviz.org/)>) and [Pandas](https://pandas.pydata.org/) libraries.
+Panelify is a Python library that makes it easy to create dashboards from **static images/plots/charts** via the [Panel](https://panel.holoviz.org/) and [Pandas](https://pandas.pydata.org/) libraries.
 
 ### Why use Panelify?
 
