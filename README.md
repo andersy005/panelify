@@ -3,7 +3,8 @@
 - [Panelify](#panelify)
   - [Badges](#badges)
   - [Overview](#overview)
-  - [Installation](#installation)
+    - [Why use Panelify?](#why-use-panelify)
+  - [Installation (COMING SOON)](#installation-coming-soon)
 
 ## Badges
 
@@ -15,11 +16,26 @@
 
 ## Overview
 
-TO DO
+Panelify is a Python library that makes it easy to create dashboards from **static images/plots/charts** via the [Panel](<(https://panel.holoviz.org/)>) and [Pandas](https://pandas.pydata.org/) libraries.
 
-## Installation
+### Why use Panelify?
 
-TO DO
+- **Simple API**: We've attempted to make the API as intuitive and easy to learn as possible.
+- **Flexibity**: Panelify is built on top of [Panel](https://panel.holoviz.org/), so if you need more control, you can always fall back on Panel's API.
+
+## Installation (COMING SOON)
+
+Panelify can be installed from PyPI with pip:
+
+```bash
+python -m pip install panelify
+```
+
+Panelify will also be available from conda-forge for conda installations:
+
+```bash
+conda install -c conda-forge panelify
+```
 
 See [documentation](https://panelify.readthedocs.io) for more information.
 
