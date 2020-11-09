@@ -3,7 +3,8 @@
 """Top-level module for panelify ."""
 from pkg_resources import DistributionNotFound, get_distribution
 
-from .dashboard import Canvas, Dashboard, create_dashboard  # pragma: no cover
+from .canvas import Canvas  # pragma: no cover
+from .dashboard import Dashboard, create_dashboard  # pragma: no cover
 
 try:
     __version__ = get_distribution(__name__).version

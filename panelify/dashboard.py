@@ -1,5 +1,3 @@
-import dataclasses
-import typing
 import uuid
 from collections import OrderedDict
 
@@ -63,7 +61,7 @@ class Dashboard(param.Parameterized):
         return uniques
 
 
-def create_dashboard(keys, df, path_column, storage_options=None, name=None):
+def create_dashboard(keys, df, path_column, storage_options=None, **params):
     """
     Lets you define dashboard class dynamically. We must use this function
     to create dashboard instances because `.param` attribute defined in Dashboard class
@@ -71,20 +69,4 @@ def create_dashboard(keys, df, path_column, storage_options=None, name=None):
     """
     _id = f"Dashboard{str(uuid.uuid4()).split('-')[0]}"
     _class = type(_id, (Dashboard,), {})
-    name = name or _id
-    return _class(keys, df, path_column, storage_options=storage_options, name=name)
-
-
-@dataclasses.dataclass
-class Canvas:
-    objs: typing.Dict[str, Dashboard]
-
-    def __post_init__(self):
-        tabs = []
-        for item, dash in self.objs.items():
-            tabs.append((item, dash))
-
-        self._canvas = pn.Tabs(*tabs, tabs_location='above')
-
-    def show(self):
-        return pn.Row(self._canvas)
+    return _class(keys, df, path_column, storage_options=storage_options, **params)
