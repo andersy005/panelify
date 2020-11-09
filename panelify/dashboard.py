@@ -1,6 +1,10 @@
+import dataclasses
+import typing
+import uuid
 from collections import OrderedDict
 
 import pandas as pd
+import panel as pn
 import param
 
 
@@ -9,7 +13,7 @@ class Dashboard(param.Parameterized):
         super().__init__(**params)
         self.keys = sorted(keys)
         self.path_column = path_column
-        self._raw_df = df
+        self._raw_df = df.copy()
         uniques = self._uniques(self._raw_df)
         self._set_index(self._raw_df)
         for column in self.keys:
@@ -36,3 +40,30 @@ class Dashboard(param.Parameterized):
     def _uniques(self, data):
         uniques = data.apply(pd.unique)[self.keys].map(sorted)
         return uniques
+
+
+def create_dashboard(keys, df, path_column, name=None):
+    """
+    Lets you define dashboard class dynamically. We must use this function
+    to create dashboard instances because `.param` attribute defined in Dashboard class
+    is a class attribute and not an instance attribute.
+    """
+    _id = f"Dashboard{str(uuid.uuid4()).split('-')[0]}"
+    _class = type(_id, (Dashboard,), {})
+    name = name or _id
+    return _class(keys, df, path_column, name=name)
+
+
+@dataclasses.dataclass
+class Canvas:
+    objs: typing.Dict[str, Dashboard]
+
+    def __post_init__(self):
+        tabs = []
+        for item, dash in self.objs.items():
+            tabs.append((item, dash))
+
+        self._canvas = pn.Tabs(*tabs, tabs_location='above')
+
+    def show(self):
+        return pn.Row(self._canvas)
