@@ -8,19 +8,33 @@ import pandas as pd
 import panel as pn
 import param
 
+_DEFAULT_WIDGETS = {'discrete_slider': pn.widgets.DiscreteSlider}
+
 
 class Dashboard(param.Parameterized):
-    def __init__(self, keys, df, path_column, storage_options=None, **params):
+    def __init__(
+        self, keys, df, path_column, storage_options=None, column_widget_types=None, **params
+    ):
         super().__init__(**params)
         self.keys = sorted(keys)
         self.path_column = path_column
         self._raw_df = df.copy()
         uniques = self._uniques(self._raw_df)
         self._set_index(self._raw_df)
+        self.widgets = {}
+        column_widget_types = column_widget_types or {}
         for column in self.keys:
             self.param._add_parameter(
                 column, param.ObjectSelector(objects=uniques[column], default=uniques[column][0])
             )
+            if column in column_widget_types:
+                value = column_widget_types[column]
+                try:
+                    self.widgets[column] = _DEFAULT_WIDGETS[value]
+                except KeyError:
+                    raise KeyError(
+                        f'{value} is not a valid value. Valid values are: {list(_DEFAULT_WIDGETS.keys())}'
+                    )
 
         self.storage_options = storage_options or {}
 
@@ -51,7 +65,9 @@ class Dashboard(param.Parameterized):
         return fig
 
     def view(self):
-        return pn.Column(pn.WidgetBox(pn.Row(self.param), pn.Row(self.imread)))
+        return pn.Column(
+            pn.WidgetBox(pn.panel(self.param, widgets=self.widgets), pn.Row(self.imread))
+        )
 
     def _set_index(self, data):
         self.df = data[self.keys + [self.path_column]].set_index(self.keys)
@@ -61,7 +77,9 @@ class Dashboard(param.Parameterized):
         return uniques
 
 
-def create_dashboard(keys, df, path_column, storage_options=None, **params):
+def create_dashboard(
+    keys, df, path_column, storage_options=None, column_widget_types=None, **params
+):
     """
     Lets you define dashboard class dynamically. We must use this function
     to create dashboard instances because `.param` attribute defined in Dashboard class
@@ -69,4 +87,11 @@ def create_dashboard(keys, df, path_column, storage_options=None, **params):
     """
     _id = f"Dashboard{str(uuid.uuid4()).split('-')[0]}"
     _class = type(_id, (Dashboard,), {})
-    return _class(keys, df, path_column, storage_options=storage_options, **params)
+    return _class(
+        keys,
+        df,
+        path_column,
+        storage_options=storage_options,
+        column_widget_types=column_widget_types,
+        **params,
+    )
