@@ -73,17 +73,36 @@ class Dashboard(param.Parameterized):
         self.df = data[self.keys + [self.path_column]].set_index(self.keys)
 
     def _uniques(self, data):
-        uniques = data.apply(pd.unique)[self.keys].map(sorted)
-        return uniques
+        return data.apply(pd.unique)[self.keys].map(sorted)
 
 
 def create_dashboard(
-    keys, df, path_column, storage_options=None, column_widget_types=None, **params
-):
+    keys: list,
+    df: pd.DataFrame,
+    path_column: str,
+    storage_options: dict = None,
+    column_widget_types: dict = None,
+    **params,
+) -> Dashboard:
     """
     Lets you define dashboard class dynamically. We must use this function
     to create dashboard instances because `.param` attribute defined in Dashboard class
     is a class attribute and not an instance attribute.
+
+    Parameters
+    ----------
+    keys: list
+        List of column names.
+    df: pandas.DataFrame
+        DataFrame containing data.
+    path_column: str
+        Name of column containing path to image.
+    storage_options: dict
+        Keyword arguments to pass to fsspec.open.
+    column_widget_types: dict
+        Dictionary mapping column names to widget types.
+    params: dict
+        Dictionary of parameters to pass to Dashboard class.
     """
     _id = f"Dashboard{str(uuid.uuid4()).split('-')[0]}"
     _class = type(_id, (Dashboard,), {})

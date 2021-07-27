@@ -1,9 +1,16 @@
 name: panelify-dev
 channels:
   - conda-forge
+  - nodefaults
 dependencies:
+  - fsspec
+  - matplotlib
   - pandas
   - panel
+  - pip
+  - pydantic
   - pytest
   - pytest-cov
   - pytest-sugar
+  - pip:
+      - -r ../requirements.txt

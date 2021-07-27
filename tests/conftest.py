@@ -4,19 +4,18 @@ import pytest
 
 @pytest.fixture(scope='module')
 def data():
-    df = pd.DataFrame(
+    return pd.DataFrame(
         {
             'varname': ['O2', 'O2', 'NH4'],
             'experiment': ['RCP', 'HIST', 'RCP'],
             'path': ['file1', 'file2', 'file3'],
         }
     )
-    return df
 
 
 @pytest.fixture(scope='module')
 def cesm_data():
-    df = pd.DataFrame(
+    return pd.DataFrame(
         [
             {
                 'casename': 'g.e22.G1850ECO_JRA_HR.TL319_t13.004',
@@ -60,5 +59,3 @@ def cesm_data():
             },
         ]
     )
-
-    return df
