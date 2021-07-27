@@ -1,4 +1,5 @@
 fsspec
 matplotlib
 pandas
-panel
+panel>=0.12
+pydantic
