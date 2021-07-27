@@ -6,7 +6,11 @@ import pydantic
 from .dashboard import Dashboard
 
 
-@pydantic.dataclasses.dataclass
+class Config:
+    arbitrary_types_allowed = True
+
+
+@pydantic.dataclasses.dataclass(config=Config)
 class Canvas:
     """
     A Canvas is a collection of Dashboards.
@@ -15,7 +19,7 @@ class Canvas:
     objs: typing.Dict[str, Dashboard]
 
     def __post_init_post_parse__(self):
-        tabs = [(item, dash) for item, dash in self.objs.items()]
+        tabs = [(item, dash.view) for item, dash in self.objs.items()]
         self._canvas = pn.Tabs(*tabs, tabs_location='above')
 
     def show(self):
