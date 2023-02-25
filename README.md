@@ -1,5 +1,14 @@
 # Panelify
 
+---
+⚠️ Warning
+
+This project is no longer being actively maintained and there are no plans to update it in the future. As such, I cannot guarantee that the code and resources contained in this repository are up-to-date or secure.
+
+I strongly advise you to exercise caution if you decide to continue using or building upon the work that has been done here. You should carefully review and test any code that you plan to use, and you should be aware that there may be security vulnerabilities or other issues that could impact your project.
+
+--- 
+
 - [Panelify](#panelify)
   - [Badges](#badges)
   - [Overview](#overview)
